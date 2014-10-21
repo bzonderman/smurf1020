@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <title>Offline Storage Lab</title>
+        <meta charset="utf-8">
+        <script type='text/javascript'>
+            function save() {
+                //get form data
+                var firstName = document.querySelector('#firstName').value;
+                var lastName = document.querySelector('#lastName').value;
+                var email =  document.querySelector('#email').value;
+                console.log(firstName + lastName + email);
+
+                //create address object
+                var address = {};
+                address.firstName = firstName;
+                address.lastName = lastName;
+                address.email = email;
+                var addresses = [];
+
+                console.log(address);
+
+                if (localStorage['addresses']){ //if localStorage is true
+                   addresses = JSON.parse(localStorage['addresses']);
+                }
+                console.log(localStorage['addresses']);
+
+                addresses.push(address);
+                localStorage['addresses'] = JSON.stringify(addresses);
+                
+            };
+            
+            function show() {                
+                var addresses = [];   
+
+                if (localStorage['addresses']){ //if localStorage is true
+                   addresses = JSON.parse(localStorage['addresses']);
+                }
+                document.querySelector('#addressList').innerHTML = "";
+
+                for (var i=0; i<addresses.length; i++) {
+                    var item = document.createElement('li');
+                    item.innerHTML = addresses[i].firstName + " " + addresses[i].lastName + " " + addresses[i].email;
+                    document.querySelector('#addressList').appendChild(item);
+                    console.log(addresses[i].firstName + ' ' + addresses[i].lastName + ' ' + addresses[i].email);
+                }
+
+            }
+
+
+            /* function show() {                
+                var addresses = localStorage["addresses"] ? JSON.parse(localStorage["addresses"]) : [];
+                document.querySelector('#addressList').innerHTML = "";
+                for (var i=0; i<addresses.length; i++) {
+                    var item = document.createElement("li");
+                    item.innerHTML = addresses[i].firstName + " " + addresses[i].lastName + " " 
+                                + addresses[i].email;
+                    document.querySelector('#addressList').appendChild(item);                
+                }                
+            }*/          
+        </script>
+    </head>
+    <body>
+        <h2>Lab</h2>
+        <p>An example that looks lets us build and display an address book</p>        
+        New address book entry<br/>
+        First name:<input type='text' id='firstName'/> ... Last name: <input type='text' id='lastName'/> ... Email address: <input type='text' id='email'/>        
+        <button onclick='save();'>Save to address book</button>
+        <br/>
+        <hr/>
+        <button onclick='show();'>List all addresses below</button>
+        <br/>
+        Addresses:
+        <ul id='addressList'>
+        </ul>        
+    </body>
+</html>

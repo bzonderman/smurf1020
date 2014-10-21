@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <title>Offline Storage Lab</title>
+        <meta charset="utf-8">
+        <script type="text/javascript">
+            function save() {
+                var firstName = document.querySelector("#firstName").value;
+                var lastName = document.querySelector("#lastName").value;
+                var email =  document.querySelector("#email").value;                
+            /*
+                complete this section to save data to local storage
+            */  
+                var addresses = [];
+
+                if (localStorage['addresses']) {                  
+                    addresses = JSON.parse(localStorage['addresses']);
+                } 
+               
+                var address = {};
+                address.firstname = firstName;
+                address.lastname = lastName;
+                address.email = email;
+               
+                console.log('address', address);
+                addresses.push(address);
+                localStorage['addresses'] = JSON.stringify(addresses);
+            };  
+            
+            function show() {                
+                /* implement this function to display the addresses in the ul tag with id "addressList" */             
+                var list = document.getElementById('addressList');
+                document.querySelector('#addressList').innerHTML = "";
+                    // addresses = JSON.parse(localStorage['addresses']),
+                var addresses = [];
+
+                if (localStorage['addresses']) {                  
+                    addresses = JSON.parse(localStorage['addresses']);
+                } 
+                
+                var length = addresses.length;
+                
+                for (var i=0; i<length; i++) {
+                    var item = document.createElement('li');
+                    item.innerHTML = addresses[i].firstname + ' ' +
+                        addresses[i].lastname + ' ' + addresses[i].email;
+                    list.appendChild(item);
+                }
+            }        
+        </script>
+    </head>
+    <body>
+        <h2>Lab</h2>
+        <p>An example that looks lets us build and display an address book</p>        
+        New address book entry<br/>
+        First name:<input type="text" id="firstName"/> ... Last name: <input type="text" id="lastName"/> ... Email address: <input type="text" id="email"/>        
+        <button onclick="save();">Save to address book</button>
+        <br/>
+        <hr/>
+        <button onclick="show();">List all addresses below</button>
+        <br/>
+        Addresses:
+        <ul id="addressList">
+        </ul>        
+    </body>
+</html>
